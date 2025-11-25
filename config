@@ -190,9 +190,11 @@ set $fg        #d8dee9
 set $accent    #8A2BE2
 set $border    #8A2BE2
 set $red       #bf616a
+set $child_pos_accent #C58FF5
 
 client.unfocused $bg $bg $accent
-client.focused $accent $accent $bg
+client.focused $accent $accent $bg $child_pos_accent
+client.focused_inactive $bg $bg $accent
 
 bar {
     position bottom
@@ -243,3 +245,11 @@ bindsym $mod+Shift+S exec grim -g "$(slurp)" -t png - | wl-copy -t image/png
 
 # lockscreen bind
 bindsym ctrl+shift+L exec swaylock -f -c "#000000"
+
+gaps inner 5
+gaps outer 5
+smart_gaps on
+
+# recorder bind
+bindsym ctrl+alt+r exec ~/.config/i3/recorder.sh
+bindsym ctrl+shift+r exec ~/.config/i3/stop-recording.sh 

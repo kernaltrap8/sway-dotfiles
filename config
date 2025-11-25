@@ -220,6 +220,7 @@ bindsym XF86AudioPrev exec --no-startup-id playerctl -p $mediaplayer previous
 
 # autostart
 exec ~/.config/i3/autostart.sh
+exec_always --no-startup-id swaybg -i ~/.config/i3/wallpapers/galaxy.png
 
 # window specific workspace behavior
 for_window [class="zen"] move to workspace 1

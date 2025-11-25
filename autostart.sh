@@ -2,10 +2,14 @@
 # Autostart script for i3
 
 function spawn() {
-  bname=$(basename "$1")
-  if ! pgrep -f -x "$bname"; then
-    "$@" & disown
-  fi
+    local cmd="$1"
+    shift
+    local bname=$(basename "$cmd")
+    if ! pgrep -f -x "$bname" >/dev/null; then
+        echo "[LOG] $cmd $*" >> /home/charlotte/startup.log
+        "$cmd" "$@" >> /home/charlotte/startup.log 2>&1 &
+        disown
+    fi
 }
 
 # Shell components
@@ -18,7 +22,7 @@ spawn gentoo-pipewire-launcher restart
 # spawn "$HOME/.config/wayfire/scripts/start-replay.sh"
 spawn gsettings set org.gnome.desktop.interface gtk-theme Adwaita:dark
 # spawn python3 "$HOME/.config/wayfire/scripts/ipc-scripts/firefox-pip-sticky.py"
-spawn swaybg -i $HOME/.config/i3/wallpapers/galaxy.png
+#spawn swaybg -i $HOME/.config/i3/wallpapers/galaxy.png # moved to main config due to socket issues
 spawn "$HOME/.config/i3status/media.sh"
 spawn swayidle -w \
          timeout 300 'if ! playerctl --all-players status 2>/dev/null | grep -q "^Playing$"; then swaylock -f -c 000000; fi' \

@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Autostart script for i3
 
+> $HOME/startup.log
+
 function spawn() {
     local cmd="$1"
     shift
@@ -13,15 +15,12 @@ function spawn() {
 }
 
 # Shell components
-dbus-update-activation-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-spawn wlr-randr --output HDMI-A-1 --custom-mode 1920x1080@100.000000Hz
-spawn /usr/libexec/xdg-desktop-portal-wlr -r
-spawn mako --background-color "#000000" --border-color "#000000" --output DP-3
+dbus-update-activation-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway 
 spawn gentoo-pipewire-launcher restart
-# spawn "$HOME/.config/i3/waybar.sh"
-# spawn "$HOME/.config/wayfire/scripts/start-replay.sh"
+sleep 1
+spawn /usr/libexec/xdg-desktop-portal-wlr -r
+spawn mako --background-color "#000000" --border-color "#000000" --output HDMI-A-1
 spawn gsettings set org.gnome.desktop.interface gtk-theme Adwaita:dark
-# spawn python3 "$HOME/.config/wayfire/scripts/ipc-scripts/firefox-pip-sticky.py"
 #spawn swaybg -i $HOME/.config/i3/wallpapers/galaxy.png # moved to main config due to socket issues
 spawn "$HOME/.config/i3status/media.sh"
 spawn swayidle -w \
@@ -31,12 +30,10 @@ spawn swayidle -w \
 
 # User apps
 spawn zen
-spawn "$HOME/.local/share/Discord/Discord"
+#spawn discord
 spawn keepassxc
-spawn SFP_UI
-spawn "$HOME/.config/wayfire/scripts/musicplayer-startup.sh"
+spawn "$HOME/.config/i3/musicplayer-startup.sh"
 spawn protonvpn-app
-#spawn steam # weird startup behavior... spawns a bunch of chromium windows. will keep commented until fix'd
 spawn dino
 
 exit
